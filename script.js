@@ -13,7 +13,7 @@ const getComputerChoice = () => {
 }
 
 const getHumanChoice = () => {
-    let humanChoice = prompt("Select from Rock/Paper/Scissors", "rock");
+    let humanChoice = prompt("Select from Rock/Paper/Scissors", "e.g. Rock");
     humanChoice = humanChoice.toLowerCase();
     if (humanChoice == "rock" || humanChoice == "paper" || humanChoice == "scissors") {
         return humanChoice;

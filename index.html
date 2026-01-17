@@ -3,11 +3,26 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="./style.css">
         <title>Odin Rock-Paper-Scissors</title>
     </head>
     <body>
-        <script src="./script.js"></script>
-        <h1 id="title"></h1>
+        <script src="./script.js" defer></script>
+        <h1 id="title">Odin Rock-Paper-Scissors!</h1>
+        <div id="game-container">
+            <p>Play 5 rounds, player with the highest score wins!</p>
+            <p>Round: <span id="round">1</span></p>
+            <button id="reset-button">Reset</button>
+            <div id="scores-container">
+                <div id="player">Player <span id="player-score">0</span></div>
+                <div id="computer">Computer <span id="computer-score">0</span></div>
+            </div>
+            <div id="controls">
+                <button id="rock">Rock</button>
+                <button id="paper">Paper</button>
+                <button id="scissors">Scissors</button>
+            </div>
+            <div id="history"></div>
+        </div>
     </body>
 </html>

@@ -1,3 +1,22 @@
+const controls = document.getElementById("controls");
+const round = document.getElementById("round");
+const playerScore = document.getElementById("player-score");
+const computerScore = document.getElementById("computer-score");
+const history = document.getElementById("history");
+const resetBtn = document.getElementById("reset-button");
+let roundCounter = 1;
+
+const resetGame = () => {
+    roundCounter = 1;
+    playerScore.textContent = 0;
+    computerScore.textContent = 0;
+    round.textContent = 1;
+    for (let i = history.children.length - 1; i >= 0; i--) {
+        console.log(history.children[i]);
+        history.children[i].remove();
+    }
+}
+
 const getComputerChoice = () => {
     let computerChoice = Math.floor(Math.random()*3)+1;
     switch (computerChoice) {
@@ -12,43 +31,39 @@ const getComputerChoice = () => {
     }
 }
 
-const getHumanChoice = () => {
-    let humanChoice = prompt("Select from Rock/Paper/Scissors", "e.g. Rock");
-    humanChoice = humanChoice.toLowerCase();
-    if (humanChoice == "rock" || humanChoice == "paper" || humanChoice == "scissors") {
-        return humanChoice;
-    } else {
-        alert("Please enter Rock, Paper or Scissors");
+const getHumanChoice = (e) => {
+    if (e.target.id == "rock" || e.target.id == "paper" || e.target.id == "scissors") {
+        playRound(e.target.id);
     }
 }
 
-const playGame = () => {
-    let computerScore = 0;
-    let playerScore = 0;
 
-    const playRound = (humanChoice, computerChoice) => {
-        if((humanChoice == "rock" && computerChoice == "scissors") || (humanChoice == "paper" && computerChoice == "rock") || (humanChoice == "scissors" && computerChoice == "rock")) {
-            playerScore++;
-        } else if((humanChoice == "rock" && computerChoice == "paper") || (humanChoice == "paper" && computerChoice == "scissors") || (humanChoice == "scissors" && computerChoice == "rock")) {
-            computerScore++;
-        }
-    }
+const playRound = (humanChoice) => {
+    const computerChoice = getComputerChoice();
 
-    for (let i = 0; i < 5; i++) {
-        const humanSelection = getHumanChoice();
-        const computerSelect = getComputerChoice();
-        playRound(humanSelection, computerSelect);
-    }
+    const para = document.createElement("p")
+    para.textContent = `You selected ${humanChoice}, Computer Selected ${computerChoice}: `
 
-    if (computerScore > playerScore) {
-        console.log(`Game over! You Lose! Computer scored: ${computerScore} and you scored ${playerScore}`)
-    } else if (playerScore > computerScore) {
-        console.log(`Game over! You Win! You scored: ${playerScore} and computer scored ${computerScore}`)    
+    if((humanChoice == "rock" && computerChoice == "scissors") || (humanChoice == "paper" && computerChoice == "rock") || (humanChoice == "scissors" && computerChoice == "rock")) {
+        para.textContent += `You scored!`
+        playerScore.textContent = Number(playerScore.textContent) + 1;
+    } else if((humanChoice == "rock" && computerChoice == "paper") || (humanChoice == "paper" && computerChoice == "scissors") || (humanChoice == "scissors" && computerChoice == "rock")) {
+        para.textContent += `Computer scored!`
+        computerScore.textContent = Number(computerScore.textContent) +1 ;
     } else {
-        console.log(`Game Over! Tie! You scored: ${playerScore} and computer scored ${computerScore}`)
+        para.textContent += `it's a tie!`;
     }
-    computerScore = 0;
-    playerScore = 0;
+    history.appendChild(para);
+    round.textContent = Number(round.textContent) +1;
 }
 
-playGame();
+// if (computerScore > playerScore) {
+//     console.log(`Game over! You Lose! Computer scored: ${computerScore} and you scored ${playerScore}`)
+// } else if (playerScore > computerScore) {
+//     console.log(`Game over! You Win! You scored: ${playerScore} and computer scored ${computerScore}`)    
+// } else {
+//     console.log(`Game Over! Tie! You scored: ${playerScore} and computer scored ${computerScore}`)
+// }
+
+resetBtn.addEventListener("click", resetGame);
+controls.addEventListener("click", getHumanChoice);

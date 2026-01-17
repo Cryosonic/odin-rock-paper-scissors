@@ -4,16 +4,15 @@ const playerScore = document.getElementById("player-score");
 const computerScore = document.getElementById("computer-score");
 const history = document.getElementById("history");
 const resetBtn = document.getElementById("reset-button");
-let roundCounter = 1;
 
 const resetGame = () => {
     roundCounter = 1;
     playerScore.textContent = 0;
     computerScore.textContent = 0;
     round.textContent = 1;
-    for (let i = history.children.length - 1; i >= 0; i--) {
-        console.log(history.children[i]);
-        history.children[i].remove();
+    history.innerHTML = "";
+    for (let i = 0; i < controls.children.length; i++) {
+        controls.children[i].classList.remove("hidden");
     }
 }
 
@@ -54,7 +53,26 @@ const playRound = (humanChoice) => {
         para.textContent += `it's a tie!`;
     }
     history.appendChild(para);
-    round.textContent = Number(round.textContent) +1;
+    
+    if (Number(round.textContent) < 5) {
+        round.textContent = Number(round.textContent) +1;
+    } else {
+        for(let i = 0; i < controls.children.length; i++) {
+            controls.children[i].classList.add("hidden");
+        }
+        const bold = document.createElement("strong");
+        const endGame = document.createElement("p");
+        if (Number(playerScore.textContent) > Number(computerScore.textContent)) {
+            endGame.textContent = "Game Over! You win!"
+        } else if (Number(computerScore.textContent) > Number(playerScore.textContent)) {
+            endGame.textContent = "Game Over! You Lose!"
+        } else {
+            endGame.textContent = "Game Over! It's a tie!"
+        }
+
+        bold.appendChild(endGame);
+        history.appendChild(bold);
+    }
 }
 
 // if (computerScore > playerScore) {
